@@ -20,22 +20,25 @@ public class jmsListener {
     // Class responsible for listening to first queue and receiving each message
     AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
 
+    private static String sqsUrl = "${sqs.sqsQueueURL}"
+
     @JmsListener(destination = "${jmslistener.queueName}", containerFactory = "jmsListenerContainerFactory")
     public void handle(final Message message) {
         if (message instanceof TextMessage) {
             final TextMessage tm = (TextMessage) message;
             try {
-                //System.out.println(tm.getText());
+                // System.out.println(tm.getText());
 
                 try {
-                    SendMessageRequest send_msg_request = new SendMessageRequest().withQueueUrl("${sqs.sqsQueueURL}")
-                        .withMessageBody(tm.getText()).withDelaySeconds(0);
-                        
-                sqs.sendMessage(send_msg_request);        
+                    SendMessageRequest send_msg_request = new SendMessageRequest().withQueueUrl(sqsUrl)
+                            .withMessageBody(tm.getText()).withDelaySeconds(0);
+                    sqs.sendMessage(send_msg_request);
+                    System.out.println(sqsUrl);
+                    
                 } catch (AmazonSQSException e) {
                     e.printStackTrace();
                 }
-                
+
             } catch (final JMSException e) {
                 e.printStackTrace();
             }
