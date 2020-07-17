@@ -26,7 +26,8 @@ public class jmsListener {
     @Value("${jmslistener.sqsQueueURL}")
     String sqsUrl;
 
-    private long lastmessage = System.currentTimeMillis();
+    public static int count = 0;
+    public static long lastlogtime = System.currentTimeMillis();
 
     @JmsListener(destination = "${jmslistener.queueName}", containerFactory = "jmsListenerContainerFactory")
     public void handle(final Message message) {
@@ -34,13 +35,13 @@ public class jmsListener {
             final TextMessage tm = (TextMessage) message;
             try {
                 try {
-                    SendMessageRequest send_msg_request = new SendMessageRequest().withQueueUrl(sqsUrl)
-                            .withMessageBody(tm.getText()).withDelaySeconds(0);
-                    sqs.sendMessage(send_msg_request);
-                    System.out.printf("Message time: %dms\n", System.currentTimeMillis() - lastmessage);
-                    lastmessage = System.currentTimeMillis();
-                } catch (AmazonSQSException e) {
-                    e.printStackTrace();
+                    //final SendMessageRequest send_msg_request = new SendMessageRequest().withQueueUrl(sqsUrl)
+                      //      .withMessageBody(tm.getText()).withDelaySeconds(0);
+                    //sqs.sendMessage(send_msg_request);
+                    tm.getText();
+                    count++;
+                } catch (final AmazonSQSException e) {
+                    //e.printStackTrace();
                 }
             } catch (final JMSException e) {
                 e.printStackTrace();
