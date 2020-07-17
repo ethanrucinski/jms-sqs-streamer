@@ -30,7 +30,7 @@ public class jmsListener {
             final TextMessage tm = (TextMessage) message;
             try {
                 try {
-                    SendMessageRequest send_msg_request = new SendMessageRequest().withQueueUrl("https://sqs.us-east-1.amazonaws.com/403707884266/tfms-demo-queue")
+                    SendMessageRequest send_msg_request = new SendMessageRequest().withQueueUrl(sqsUrl)
                             .withMessageBody(tm.getText()).withDelaySeconds(0);
                     sqs.sendMessage(send_msg_request);
                     System.out.println(sqsUrl);
