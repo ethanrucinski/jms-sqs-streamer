@@ -39,8 +39,9 @@ public class JmsSqsStreamerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JmsSqsStreamerApplication.class, args);
 		int seconds = 2;
+		lastlogtime= System.currentTimeMillis();
 		timer = new Timer();
-		timer.schedule(new MetricsTask(), seconds * 1000, seconds * 1000);
+		timer.schedule(new MetricsTask(), 2000, seconds * 1000);
 	}
 
 	// Basic health check for the application will return "OK" when running
