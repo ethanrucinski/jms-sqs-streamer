@@ -33,12 +33,9 @@ public class jmsListener {
                     SendMessageRequest send_msg_request = new SendMessageRequest().withQueueUrl(sqsUrl)
                             .withMessageBody(tm.getText()).withDelaySeconds(0);
                     sqs.sendMessage(send_msg_request);
-                    System.out.println(sqsUrl);
-
                 } catch (AmazonSQSException e) {
                     e.printStackTrace();
                 }
-
             } catch (final JMSException e) {
                 e.printStackTrace();
             }
