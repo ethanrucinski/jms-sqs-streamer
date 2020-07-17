@@ -1,5 +1,7 @@
 package com.ethanrucinski.jmssqsstreamer.jms;
 
+import java.sql.Timestamp;
+
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
@@ -24,6 +26,9 @@ public class jmsListener {
     @Value("${jmslistener.sqsQueueURL}")
     String sqsUrl;
 
+    private int messageCount = 0;
+    private Timestamp lastmessage = new Timestamp(System.currentTimeMillis());
+
     @JmsListener(destination = "${jmslistener.queueName}", containerFactory = "jmsListenerContainerFactory")
     public void handle(final Message message) {
         if (message instanceof TextMessage) {
@@ -33,6 +38,7 @@ public class jmsListener {
                     SendMessageRequest send_msg_request = new SendMessageRequest().withQueueUrl(sqsUrl)
                             .withMessageBody(tm.getText()).withDelaySeconds(0);
                     sqs.sendMessage(send_msg_request);
+                    System.out.printf("Message count: %d", messageCount);
                 } catch (AmazonSQSException e) {
                     e.printStackTrace();
                 }
@@ -43,4 +49,5 @@ public class jmsListener {
             System.out.println(message.toString());
         }
     }
+
 }

@@ -17,7 +17,6 @@ public class JmsSqsStreamerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(JmsSqsStreamerApplication.class, args);
-		
 	}
 
 	// Basic health check for the application will return "OK" when running
