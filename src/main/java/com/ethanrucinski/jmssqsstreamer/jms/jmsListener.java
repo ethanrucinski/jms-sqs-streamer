@@ -4,6 +4,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
@@ -20,15 +21,14 @@ public class jmsListener {
     // Class responsible for listening to first queue and receiving each message
     AmazonSQS sqs = AmazonSQSClientBuilder.defaultClient();
 
-    private String sqsUrl = "${jmsListener.sqsQueueURL}";
+    @Value("${jmslistener.sqsQueueURL}")
+    String sqsUrl;
 
     @JmsListener(destination = "${jmslistener.queueName}", containerFactory = "jmsListenerContainerFactory")
     public void handle(final Message message) {
         if (message instanceof TextMessage) {
             final TextMessage tm = (TextMessage) message;
             try {
-                // System.out.println(tm.getText());
-
                 try {
                     SendMessageRequest send_msg_request = new SendMessageRequest().withQueueUrl("https://sqs.us-east-1.amazonaws.com/403707884266/tfms-demo-queue")
                             .withMessageBody(tm.getText()).withDelaySeconds(0);
