@@ -37,7 +37,7 @@ public class jmsListener {
                     SendMessageRequest send_msg_request = new SendMessageRequest().withQueueUrl(sqsUrl)
                             .withMessageBody(tm.getText()).withDelaySeconds(0);
                     sqs.sendMessage(send_msg_request);
-                    System.out.printf("Message time: %d", System.currentTimeMillis() - lastmessage);
+                    System.out.printf("Message time: %dms\n", System.currentTimeMillis() - lastmessage);
                     lastmessage = System.currentTimeMillis();
                 } catch (AmazonSQSException e) {
                     e.printStackTrace();
