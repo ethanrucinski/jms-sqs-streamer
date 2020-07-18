@@ -1,7 +1,5 @@
 package com.ethanrucinski.jmssqsstreamer.jms;
 
-import java.sql.Timestamp;
-
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
